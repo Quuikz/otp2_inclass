@@ -6,13 +6,12 @@ pipeline {
     }
 
     environment {
-           environment {
-               PATH = "/Applications/Docker.app/Contents/Resources/bin:/usr/local/bin:${env.PATH}"
-               DOCKERHUB_CREDENTIALS_ID = 'dockerHub'
-               DOCKERHUB_REPO = 'rikukuikka/otp2_localization'
-               DOCKER_IMAGE_TAG = 'latest'
+       PATH = "/Applications/Docker.app/Contents/Resources/bin:/usr/local/bin:${env.PATH}"
+       DOCKERHUB_CREDENTIALS_ID = 'dockerHub'
+       DOCKERHUB_REPO = 'rikukuikka/otp2_localization'
+       DOCKER_IMAGE_TAG = 'latest'
 
-               BUILD_IMAGE_NAME = 'localization'
+       BUILD_IMAGE_NAME = 'localization'
     }
 
     stages {
