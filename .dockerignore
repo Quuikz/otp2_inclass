@@ -1,0 +1,9 @@
+.git/
+.gitignore
+.idea/
+.mvn/
+target/
+*.md
+Jenkinsfile
+.DS_Store
+

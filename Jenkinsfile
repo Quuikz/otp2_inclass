@@ -1,0 +1,91 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven'
+        git 'default'
+    }
+
+    environment {
+           environment {
+               PATH = "/Applications/Docker.app/Contents/Resources/bin:/usr/local/bin:${env.PATH}"
+               DOCKERHUB_CREDENTIALS_ID = 'dockerHub'
+               DOCKERHUB_REPO = 'rikukuikka/otp2_localization'
+               DOCKER_IMAGE_TAG = 'latest'
+
+               BUILD_IMAGE_NAME = 'localization'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch 'main', url:'https://github.com/Quuikz/otp2_inclass'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'mvn -f pom.xml clean test'
+            }
+        }
+
+        stage('Code Coverage') {
+            steps{
+                sh 'mvn -f pom.xml jacoco:report'
+            }
+        }
+
+        stage('Publish Test Report') {
+            steps{
+                junit '**/target/surefire-reports/*.xml'
+            }
+        }
+
+        stage('Publish Coverage Report') {
+            steps {
+                recordCoverage(
+                    tools: [(parses: 'JACOCO', pattern: '**/target/site/jacoco/jacoco.xml)]
+                )
+            }
+        }
+
+        stage('Publish to SSH Server') {
+                    steps {
+                        sshPublisher(publishers: [
+                            sshPublisherDesc(
+                                configName: 'metropolia_users',
+                                transfers: [
+                                    sshTransfer(
+                                        sourceFiles: "server/target/site/jacoco/**",
+                                        removePrefix: 'server/target/site/jacoco',
+                                        remoteDirectory: 'otp2_localization-${BUILD_NUMBER}',
+                                        cleanRemote: false,
+                                    )
+                                ],
+                                verbose: true
+                    )
+                ])
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dir ('.') {
+                        docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
+                    }
+                }
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS_ID}", passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
+                        sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
+                        sh "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
+                    }
+                }
+            }
+        }
+    }
+}
