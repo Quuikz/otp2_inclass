@@ -40,9 +40,9 @@ pipeline {
         }
 
         stage('Publish Coverage Report') {
-            steps {
-                recordCoverage(
-                    tools: [(parses: 'JACOCO', pattern: '**/target/site/jacoco/jacoco.xm'l)]
+                    steps {
+                        recordCoverage(
+                            tools: [[parser: 'JACOCO', pattern: '**/target/site/jacoco/jacoco.xml']]
                 )
             }
         }
@@ -69,9 +69,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dir ('.') {
-                        docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
-                    }
+                    docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
                 }
             }
         }
