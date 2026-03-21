@@ -1,4 +1,6 @@
 FROM eclipse-temurin:21-jdk
+FROM maven:latest
+
 LABEL authors="riku"
 
 WORKDIR .
