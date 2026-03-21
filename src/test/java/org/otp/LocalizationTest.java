@@ -54,7 +54,7 @@ class LocalizationTest {
 	@Test
 	void main_calculatesSingleItemTotalCostCorrectly() {
 		String input = String.join("\n",
-				"en", "gb", // locale
+				"en", // locale
 				"1", // items
 				"Apple", "3", "2.50" // quantity * price = 7.50
 		) + "\n";
@@ -67,7 +67,7 @@ class LocalizationTest {
 	@Test
 	void main_calculatesCartTotalForMultipleItemsCorrectly() {
 		String input = String.join("\n",
-				"en", "gb", // locale
+				"en", // locale
 				"2", // items
 				"Milk", "2", "1.50", // 3.00
 				"Bread", "1", "2.00" // 2.00

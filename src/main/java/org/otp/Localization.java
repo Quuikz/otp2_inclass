@@ -20,18 +20,17 @@ public class Localization {
         return language;
     }
 
-    static String getCountry(ResourceBundle bundle){
-        String sel;
-        String country = null;
+    static String getCountry(String language){
+        String country;
 
-        while(country == null){
-            System.out.println(bundle.getString("selectCountry"));
-            sel = scanner.nextLine().trim();
-
-            if (Set.of("gb", "fi", "se", "jp").contains(sel.toLowerCase())){
-                country = sel.toUpperCase();
-            }
+        switch (language) {
+            case "en" -> country = "GB";
+            case "fi" -> country = "FI";
+            case "sv" -> country = "SE";
+            case "ja" -> country = "JP";
+            default -> country = "US";
         }
+
         return country;
     }
 
@@ -116,7 +115,7 @@ public class Localization {
         double cartTotal = 0.00;
 
         String language = getLanguage(bundle);
-        String country = getCountry(bundle);
+        String country = getCountry(language);
 
         locale = Locale.of(language,country);
         bundle = ResourceBundle.getBundle("MessagesBundle" , locale);
