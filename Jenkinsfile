@@ -47,24 +47,24 @@ pipeline {
             }
         }
 
-        stage('Publish to SSH Server') {
-                    steps {
-                        sshPublisher(publishers: [
-                            sshPublisherDesc(
-                                configName: 'metropolia_users',
-                                transfers: [
-                                    sshTransfer(
-                                        sourceFiles: "server/target/site/jacoco/**",
-                                        removePrefix: 'server/target/site/jacoco',
-                                        remoteDirectory: 'otp2_localization-${BUILD_NUMBER}',
-                                        cleanRemote: false,
-                                    )
-                                ],
-                                verbose: true
-                    )
-                ])
-            }
-        }
+//        stage('Publish to SSH Server') {
+//                    steps {
+//                        sshPublisher(publishers: [
+//                            sshPublisherDesc(
+//                                configName: 'metropolia_users',
+//                                transfers: [
+//                                    sshTransfer(
+//                                        sourceFiles: "server/target/site/jacoco/**",
+//                                        removePrefix: 'server/target/site/jacoco',
+//                                        remoteDirectory: 'otp2_localization-${BUILD_NUMBER}',
+//                                        cleanRemote: false,
+//                                    )
+//                                ],
+//                                verbose: true
+//                    )
+//                ])
+//            }
+//        }
 
         stage('Build Docker Image') {
             steps {
