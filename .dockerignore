@@ -7,3 +7,20 @@ target/
 Jenkinsfile
 .DS_Store
 
+# Git
+.git
+
+# Secrets and Config
+.env
+*.pem
+*.key
+secrets/
+
+# Build Artefacts / Dependencies
+node_modules/
+dist/
+*.log
+
+# Docker itself
+Dockerfile
+.dockerignore
