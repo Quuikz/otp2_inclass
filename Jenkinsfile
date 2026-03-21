@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
         maven 'maven'
-        git 'default'
+        git 'Default'
     }
 
     environment {
