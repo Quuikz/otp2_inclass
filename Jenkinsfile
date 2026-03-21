@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch 'master', url:'https://github.com/Quuikz/otp2_inclass'
+                git branch: 'master', url:'https://github.com/Quuikz/otp2_inclass'
             }
         }
 
