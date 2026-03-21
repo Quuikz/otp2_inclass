@@ -5,6 +5,6 @@ WORKDIR .
 
 COPY . .
 
-RUN mvn clean package -DskipTests
+RUN mvn -f pom.xml clean package -DskipTests
 
 CMD ["java","-jar","./target/Localization-1.0-SNAPSHOT.jar"]
